@@ -1,0 +1,6 @@
+export const FETCH_SUCCESS = 'FETCH_SUCCESS'; 
+export const FETCH_FALIURE = 'FETCH_FALIURE';
+export const FETCH_PENDING = 'FETCH_PENDING';
+
+export const LIKE_MOVIE = 'LIKE_MOVIE';
+export const DISLIKE_MOVIE = 'DISLIKE_MOVIE';
