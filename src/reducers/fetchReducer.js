@@ -18,6 +18,7 @@ function fetchReducer(state={
 		  			favorite: false
 		  		}
 		  	});
+		  	moviesData = moviesData.filter(x => !!x)
 			return {
 				...state,
 				isFetchSuccess: true,
