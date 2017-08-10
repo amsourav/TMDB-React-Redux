@@ -9,8 +9,6 @@ import Select from 'react-select'
 class App extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleLike = this.handleLike.bind(this)
-	    
 		this.logSortSelectChange = this.logSortSelectChange.bind(this)
 		this.logYearSelectChange = this.logYearSelectChange.bind(this)
 	    this.state = {
@@ -20,10 +18,6 @@ class App extends React.Component {
 	      sortSelectValue: null,
 	      yearSelectValue: null
 	    }
-	}
-
-	handleLike(e) {
-		console.log(this);
 	}
 
 	logSortSelectChange(sortSelectValue) {
@@ -139,23 +133,24 @@ class App extends React.Component {
 		if (this.props.sortedMovies.type !== UNSORT) {
 			MovieCardsDiv = this.props.sortedMovies.payload? (this.props.sortedMovies.payload.map(data => {
 								if (data !== null) {
-									return <MovieCard key={data.id} data={data} handleLike={this.handleLike} />;
+									return <MovieCard key={data.id} data={data} />;
 								} else {
 									return null;
 								}
 							})):null;
+		} else if (this.props.search.payload.term !==""){
+			MovieCardsDiv = this.props.search.payload.filteredMovies.length? (this.props.search.payload.filteredMovies.map(data => {
+									return <MovieCard key={data.id} data={data} />;
+							})):<div className="Jumbotron">No Movies Found that match the search criteria</div>;			
 		} else {
-			MovieCardsDiv = this.props.movies? (this.props.movies.map(data => {
-								if (data !== null) {
-									return <MovieCard key={data.id} data={data} handleLike={this.handleLike} />;
-								} else {
-									return null;
-								}
-							})):null;			
+			MovieCardsDiv = this.props.movies.length? (this.props.movies.map(data => {
+					if (data !== null) {
+						return <MovieCard key={data.id} data={data} />;
+					} else {
+						return null;
+					}
+				})):null;
 		}
-
-
-
 
 		return(
 			<div className="App Container">
@@ -191,7 +186,8 @@ function mapStateToProps(state) {
 		sortedMovies: {
 			type: state.sortReducer.type,
 			payload: state.sortReducer.sortedMovies
-		}
+		},
+		search: state.searchReducer
 	}
 }
 
