@@ -2,7 +2,7 @@ import React from 'react';
 
 const Error = () => {
 	return(
-		<div className="Container" style={{marginTop: 120}}>
+		<div className="Container">
 			<h1>Oops!</h1>
 		</div>
 	)

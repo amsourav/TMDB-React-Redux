@@ -1,6 +1,7 @@
 import { LIKE_MOVIE, DISLIKE_MOVIE } from '../constants/actionTypes'
 
 function likeReducer(state={
+	type: [],
 	favMovies: []
 }, action) {
 	switch (action.type) {

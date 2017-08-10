@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { getMovieData } from '../../actions/movieData'
 import { FETCH_SUCCESS } from '../../constants/actionTypes'
-import { RATE_LOW_HIGH, RATE_HIGH_LOW, POP_LOW_HIGH, POP_HIGH_LOW, SORT_YEAR, UNSORT }  from '../../constants/actionTypes'
+import { LIKE_MOVIE, DISLIKE_MOVIE, RATE_LOW_HIGH, RATE_HIGH_LOW, POP_LOW_HIGH, POP_HIGH_LOW, SORT_YEAR, UNSORT }  from '../../constants/actionTypes'
 import MovieCard from '../../components/MovieCard'
 import Select from 'react-select'
 
@@ -22,8 +22,8 @@ class App extends React.Component {
 	    }
 	}
 
-	handleLike() {
-
+	handleLike(e) {
+		console.log(this);
 	}
 
 	logSortSelectChange(sortSelectValue) {
@@ -158,7 +158,7 @@ class App extends React.Component {
 
 
 		return(
-			<div className="App Container" style={{marginTop: 120}}>
+			<div className="App Container">
 	          <div className="selectContainer" style={{marginBottom: 17}}>
 	            <div className="sortSelect">
 	              <Select
@@ -221,6 +221,22 @@ function mapDispatchToProps(dispatch) {
 				year,
 				payload: {
 					...payload
+				}
+			})
+		},
+		likeMovie(id) {
+			return dispatch({
+				type: LIKE_MOVIE,
+				payload: {
+					id
+				}
+			})
+		},
+		dislikeMovie(id) {
+			return dispatch({
+				type: DISLIKE_MOVIE,
+				payload: {
+					id
 				}
 			})
 		}

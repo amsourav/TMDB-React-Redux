@@ -10,9 +10,6 @@ class MovieCard extends React.Component {
 	constructor(props) {
 		super(props);
 		this.getImageURL = this.getImageURL.bind(this);
-		this.state = {
-			movieLiked: []
-		}
 	}
 
 	getImageURL(imagePath) {
@@ -20,7 +17,6 @@ class MovieCard extends React.Component {
 	}
 
 	render() {
-		const heartIcon = this.props.data.favorite?<FontAwesome style={{color: "red"}} name="heart" />:<FontAwesome name="heart-o" />;
 		return (
 			<div key={this.props.data.id} className="MovieCard">
 				<div className="MovieCard__Poster">
@@ -30,8 +26,8 @@ class MovieCard extends React.Component {
 				<div className="MovieCard__InnerContainer">
 					<div className="MovieCard__releaseDate p-absolute u-text p-topLeft">{releaseDateFormatted(this.props.data.release_date)}</div>
 					<div className="MovieCard__userInteractionContainer p-absolute p-topRight">
-						<div className="Icon Icon__noPadding u-text">
-							{heartIcon}
+						<div className="Icon Icon__noPadding u-text" onClick={this.props.handleLike}>
+							<FontAwesome name="heart-o" />
 						</div>
 						<div className="Icon Icon__noPadding u-text">
 							<FontAwesome name="comment" />

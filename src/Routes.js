@@ -10,9 +10,11 @@ export default () => (
   <div>
   	<Header />
     <DevTools />
-  	<Switch>
-	    <Route path="/" exact component={App} />
-	    <Route component={Error} />
-	</Switch>
+    <div className="Container u-margin-top-gutter">
+	  	<Switch>
+		    <Route path="/" exact component={App} />
+		    <Route component={Error} />
+		</Switch>
+	</div>
   </div>
 );
