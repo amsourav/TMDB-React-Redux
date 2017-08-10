@@ -30,14 +30,15 @@ class MovieCard extends React.Component {
 				<div className="MovieCard__InnerContainer">
 					<div className="MovieCard__releaseDate p-absolute u-text p-topLeft">{releaseDateFormatted(this.props.data.release_date)}</div>
 					<div className="MovieCard__userInteractionContainer p-absolute p-topRight">
-						<div className="Icon Icon__noPadding u-text" onClick={this.markFavorite}>
+						<div className="Icon Icon__noPadding u-text">
 							{heartIcon}
 						</div>
 						<div className="Icon Icon__noPadding u-text">
 							<FontAwesome name="comment" />
 						</div>
-						<div className="Icon Icon__noPadding u-text">
+						<div className="Icon Icon__noPadding Icon__unsetWidth u-text u-cursor-pointer">
 							<FontAwesome name="star-o" />
+							<span className="favortites u-padding-6p-left">{this.props.data.vote_count}</span>
 						</div>
 					</div>
 					<div className="MovieCard__movieDetails p-absolute p-bottomLeft">

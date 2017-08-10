@@ -6,6 +6,8 @@
 @twitter-color: #1dcaff;
 @whatsapp-color: #25d366;
 
+@import './react-select.less';
+
 body {
   margin: 0;
   padding: 0;
@@ -30,9 +32,25 @@ a:link, a:visited {
 }
 
 .Movies__Container {
-    display: flex;
-    flex-wrap: wrap;
+	overflow: auto;
 }
+
+.selectContainer {
+	font-size: 12px;
+	&> * {
+		display: inline-block;
+		margin: 10px;
+	}
+
+	.sortSelect {
+		width: 160px;
+	}
+
+	.yearSelect {
+		width: 80px;
+	}
+}
+
 
 .Icon {
 	display: inline-block;
@@ -58,6 +76,11 @@ a:link, a:visited {
 		margin: 0 3px;
 		padding: 0px!important;
 	}
+
+    &__unsetWidth {
+    	width: unset;
+    }
+
 }
 
 // POSITION
@@ -86,6 +109,16 @@ a:link, a:visited {
 // UTILITY 
 
 .u {
+
+	&-padding {
+		&-6p-left {
+			padding-left: 6px;
+		}
+		&-6p-bottom {
+			padding-bottom: 6px;
+		}
+	}
+
 	&-text {
 		color: @text-color
 	}

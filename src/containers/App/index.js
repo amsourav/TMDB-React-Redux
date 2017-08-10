@@ -2,10 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { getMovieData } from '../../actions/movieData'
 import { FETCH_SUCCESS } from '../../constants/actionTypes'
-import { RATE_LOW_HIGH, RATE_HIGH_LOW, POP_LOW_HIGH, POP_HIGH_LOW }  from '../../constants/actionTypes'
+import { RATE_LOW_HIGH, RATE_HIGH_LOW, POP_LOW_HIGH, POP_HIGH_LOW, SORT_YEAR, UNSORT }  from '../../constants/actionTypes'
 import MovieCard from '../../components/MovieCard'
 import Select from 'react-select'
-import _ from 'lodash'
 
 class App extends React.Component {
 	constructor(props) {
@@ -18,8 +17,8 @@ class App extends React.Component {
 	      movieData: [],
 	      filteredMovieData: [],
 	      filteredView: false,
-	      sortSelectValue: {value: null, label: null},
-	      yearSelectValue: {value: null, label: null}
+	      sortSelectValue: null,
+	      yearSelectValue: null
 	    }
 	}
 
@@ -30,57 +29,89 @@ class App extends React.Component {
 	logSortSelectChange(sortSelectValue) {
 		let filteredMovieData;
 
-		switch(sortSelectValue.value) {
-		  case 'rl':
+		if (sortSelectValue != null) {
+			switch(sortSelectValue.value) {
+			  case 'rl':
+			  	this.props.sortByData({
+			  		type: RATE_LOW_HIGH,
+			  		payload: {
+			  			...this.props.movies
+			  		}
+			  	})
+			    break;
+			  case 'rh':
+			  	this.props.sortByData({
+			  		type: RATE_HIGH_LOW,
+			  		payload: {
+			  			...this.props.movies
+			  		}
+			  	})
+			    break;
+			  case 'pl':
+			  	this.props.sortByData({
+			  		type: POP_LOW_HIGH,
+			  		payload: {
+			  			...this.props.movies
+			  		}
+			  	})
+			    break;
+			  case 'ph':
+			  	this.props.sortByData({
+			  		type: POP_HIGH_LOW,
+			  		payload: {
+			  			...this.props.movies
+			  		}
+			  	})
+			    break;
+			  default:
+			    filteredMovieData = this.props.movies
+			}
+		} else {
+			filteredMovieData = []
 		  	this.props.sortByData({
-		  		type: RATE_LOW_HIGH
+	  			type: UNSORT,
+	  			payload: {
+		  			...this.props.movies
+		  		}
 		  	})
-		    break;
-		  case 'rh':
-		  	this.props.sortByData({
-		  		type: RATE_HIGH_LOW
-		  	})
-		    break;
-		  case 'pl':
-		  	this.props.sortByData({
-		  		type: POP_LOW_HIGH
-		  	})
-		    break;
-		  case 'ph':
-		  	this.props.sortByData({
-		  		type: POP_HIGH_LOW
-		  	})
-		    break;
-		  default:
-		    filteredMovieData = this.props.movies
+
 		}
 
 		this.setState({
 		  sortSelectValue,
+		  yearSelectValue: null,
 		  filteredMovieData: filteredMovieData,
 		  filteredView: true
 		})
 	}
 
 	logYearSelectChange(yearSelectValue) {
-	let filteredMovieData;
+		let filteredMovieData;
 
-	if (yearSelectValue !== null) {
-	  filteredMovieData = _.filter(this.props.movies, function(o) {
-	    let releaseDate = new Date(o.release_date)
-	    return yearSelectValue.value === releaseDate.getFullYear()
-	  })
+		if (yearSelectValue != null) {
+			this.props.sortByYear({
+				type: SORT_YEAR,
+				year: yearSelectValue,
+				payload: {
+					...this.props.movies
+				}
+			})			
+		} else {
+			this.props.sortByYear({
+				type: UNSORT,
+				year: yearSelectValue,
+				payload: {
+					...this.props.movies
+				}
+			})	
+		}
 
-	  this.setState({
-	    yearSelectValue,
-	    filteredMovieData: filteredMovieData,
-	    filteredView: true
-	  })
-	} else {
-	  this.setState({
-	    filteredView: false        
-	  })
-	}
+		this.setState({
+			yearSelectValue,
+			sortSelectValue: null,
+			filteredMovieData
+		})
+
 	}
 
 	componentDidMount() {
@@ -88,6 +119,8 @@ class App extends React.Component {
 	}
 
 	render() {
+
+		let MovieCardsDiv;
 
 		const options = [
 			{ value: 'rl', label: 'Rating: Low' },
@@ -103,13 +136,26 @@ class App extends React.Component {
 			{ value: 2017, label: '2017'}
 		];
 
-		let MovieCardsDiv = this.props.movies? (this.props.movies.map(data => {
-			if (data !== null) {
-				return <MovieCard key={data.id} data={data} handleLike={this.handleLike} />;
-			} else {
-				return null;
-			}
-		})):null;
+		if (this.props.sortedMovies.type !== UNSORT) {
+			MovieCardsDiv = this.props.sortedMovies.payload? (this.props.sortedMovies.payload.map(data => {
+								if (data !== null) {
+									return <MovieCard key={data.id} data={data} handleLike={this.handleLike} />;
+								} else {
+									return null;
+								}
+							})):null;
+		} else {
+			MovieCardsDiv = this.props.movies? (this.props.movies.map(data => {
+								if (data !== null) {
+									return <MovieCard key={data.id} data={data} handleLike={this.handleLike} />;
+								} else {
+									return null;
+								}
+							})):null;			
+		}
+
+
+
 
 		return(
 			<div className="App Container" style={{marginTop: 120}}>
@@ -142,7 +188,10 @@ class App extends React.Component {
 function mapStateToProps(state) {
 	return {
 		movies: state.fetchReducer.moviesData,
-		sortedMovies: state.sortReducer.sortedMovies,
+		sortedMovies: {
+			type: state.sortReducer.type,
+			payload: state.sortReducer.sortedMovies
+		}
 	}
 }
 
@@ -157,13 +206,22 @@ function mapDispatchToProps(dispatch) {
 				} 
 			})
 		},
-		sortByData({type}) {
+		sortByData({type, payload}) {
 			return dispatch({
 				type,
 				payload: {
-					...this.movies.results
+					...payload
 				}
 
+			})
+		},
+		sortByYear({type, year, payload}) {
+			return dispatch({
+				type: type,
+				year,
+				payload: {
+					...payload
+				}
 			})
 		}
 	}
