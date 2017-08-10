@@ -1,5 +1,4 @@
 # TMDB React Redux App
-=======================
 
 This app uses the latest `react-router`, `react-router-redux@next`
 
