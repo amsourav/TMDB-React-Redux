@@ -182,7 +182,7 @@ class App extends React.Component {
 
 function mapStateToProps(state) {
 	return {
-		movies: state.fetchReducer.moviesData,
+		movies: state.fetchReducer.moviesData || [],
 		sortedMovies: {
 			type: state.sortReducer.type,
 			payload: state.sortReducer.sortedMovies
