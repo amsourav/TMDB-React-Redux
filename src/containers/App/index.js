@@ -16,6 +16,16 @@ import MovieCard from "../../components/MovieCard";
 import Select from "react-select";
 
 class App extends React.Component {
+	static loadData(store, match) {
+		return getMovieData().then(data => {
+			return store.dispatch({
+				type: FETCH_SUCCESS,
+				payload: {
+					...data
+				}
+			});
+		});
+	}
 	constructor(props) {
 		super(props);
 		this.logSortSelectChange = this.logSortSelectChange.bind(this);
