@@ -1,29 +1,17 @@
 import React from "react";
-import { createStore, compose, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import createHistory from "history/createBrowserHistory";
-import { ConnectedRouter, routerMiddleware } from "react-router-redux";
-import { createLogger } from "redux-logger";
-import thunk from "redux-thunk";
-import persistState from "redux-localstorage";
-import DevTools from "./containers/DevTools";
-import reducers from "./reducers";
+import { ConnectedRouter } from "react-router-redux";
 import Routes from "./Routes";
+import configureStore from "./store";
+
+// the initial state configured on the server is sent through
+// the `window` object before the bundle to make sure it doesn't get blocked
+const initialState = window.INITIAL_STATE || {};
+// once this gets loaded in, garbage collect the old `window` state
+delete window.INITIAL_STATE;
 
 const Root = () => {
-  const logger = createLogger();
-  const history = createHistory();
-  const store = createStore(
-    reducers,
-    {},
-    compose(
-      applyMiddleware(routerMiddleware(history)),
-      applyMiddleware(logger),
-      applyMiddleware(thunk),
-      persistState(),
-      DevTools.instrument()
-    )
-  );
+  const { history, store } = configureStore(initialState);
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
