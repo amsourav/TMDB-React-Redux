@@ -25,19 +25,15 @@ var _createMemoryHistory = require("history/createMemoryHistory");
 
 var _createMemoryHistory2 = _interopRequireDefault(_createMemoryHistory);
 
+var _reduxLocalstorage = require("redux-localstorage");
+
+var _reduxLocalstorage2 = _interopRequireDefault(_reduxLocalstorage);
+
 var _reducers = require("./reducers");
 
 var _reducers2 = _interopRequireDefault(_reducers);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/*
-  store.js
-
-  Configure redux store
-
-  Will be called on both server and client
-*/
 
 function configureStore() {
   var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -66,7 +62,7 @@ function configureStore() {
   // const middleware = process.env.NODE_ENV === 'development' ?
   //   composeWithDevTools(applyMiddleware(initializedRouterMW, thunk)) :
   //   applyMiddleware(initializedRouterMW, thunk);
-  var middleware = (0, _reduxDevtoolsExtension.composeWithDevTools)((0, _redux.applyMiddleware)(initializedRouterMW, _reduxThunk2.default, logger));
+  var middleware = (0, _reduxDevtoolsExtension.composeWithDevTools)((0, _redux.compose)((0, _redux.applyMiddleware)(initializedRouterMW, _reduxThunk2.default, logger), (0, _reduxLocalstorage2.default)()));
 
   var store = (0, _redux.createStore)(_reducers2.default, initialState, middleware);
 
@@ -80,4 +76,10 @@ function configureStore() {
     }
   }
   return { history: history, store: store };
-}
+} /*
+    store.js
+  
+    Configure redux store
+  
+    Will be called on both server and client
+  */

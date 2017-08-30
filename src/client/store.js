@@ -6,13 +6,14 @@
   Will be called on both server and client
 */
 
-import { createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import { routerMiddleware } from "react-router-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { createLogger } from "redux-logger";
 import createHistory from "history/createBrowserHistory";
 import createMemoryHistory from "history/createMemoryHistory";
+import persistState from 'redux-localstorage'
 
 import reducers from "./reducers";
 
@@ -41,7 +42,10 @@ export default function configureStore(initialState = {}, fromServer) {
   //   composeWithDevTools(applyMiddleware(initializedRouterMW, thunk)) :
   //   applyMiddleware(initializedRouterMW, thunk);
   const middleware = composeWithDevTools(
-    applyMiddleware(initializedRouterMW, thunk, logger)
+    compose(
+      applyMiddleware(initializedRouterMW, thunk, logger),
+      persistState()
+    )
   );
 
   const store = createStore(reducers, initialState, middleware);

@@ -125,7 +125,7 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.fetchMovieData();
+		// this.props.fetchMovieData();
 	}
 
 	render() {

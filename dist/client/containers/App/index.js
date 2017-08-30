@@ -142,7 +142,7 @@ var App = function (_React$Component) {
 	}, {
 		key: "componentDidMount",
 		value: function componentDidMount() {
-			this.props.fetchMovieData();
+			// this.props.fetchMovieData();
 		}
 	}, {
 		key: "render",
