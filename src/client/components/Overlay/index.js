@@ -1,5 +1,5 @@
 import React from 'react';
-import './Overlay.less';
+// import './Overlay.less';
 
 function Overlay() {
 	return (

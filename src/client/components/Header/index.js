@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import FontAwesome from "react-fontawesome";
 import { connect } from "react-redux";
-import "./Header.less";
-import logo from "./logo.png";
+// import "./Header.less";
+// import logo from "./logo.png";
 import { SEARCH } from "../../constants/actionTypes";
 
 class Header extends React.Component {
@@ -39,6 +39,7 @@ class Header extends React.Component {
 		});
 	}
 	render() {
+		let logo = "";
 		return (
 			<header className="Header">
 				<div className="Container">

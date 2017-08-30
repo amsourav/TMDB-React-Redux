@@ -1,6 +1,6 @@
 import React from "react";
 import FontAwesome from "react-fontawesome";
-import "./MovieCard.less";
+// import "./MovieCard.less";
 import Overlay from "../Overlay";
 import { releaseDateFormatted } from "../../utils/dateHelper";
 import { connect } from "react-redux";
