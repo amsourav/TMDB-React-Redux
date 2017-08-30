@@ -1,9 +1,15 @@
-@movie-card-width: 301px;
+@movie-card-width: 30%;
 @movie-card-height: 345px;
 
 .MovieCard {
     min-width: @movie-card-width;
     width: @movie-card-width;
+    @media (min-width: 320px) and (max-width: 475px) {
+        width: 100%;
+    }
+    @media (min-width: 478px) and (max-width: 991px) {
+        width: 40%;
+    }
     height: @movie-card-height;
     float: left;
     box-sizing: border-box;

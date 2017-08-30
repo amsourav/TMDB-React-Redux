@@ -1,8 +1,9 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { ConnectedRouter } from "react-router-redux";
-import Routes from "./Routes";
 import configureStore from "./store";
+import routes from './route-config';
+import { renderRoutes } from "react-router-config";
 
 // the initial state configured on the server is sent through
 // the `window` object before the bundle to make sure it doesn't get blocked
@@ -15,7 +16,7 @@ const Root = () => {
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <Routes />
+        {renderRoutes(routes)}
       </ConnectedRouter>
     </Provider>
   );

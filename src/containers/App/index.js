@@ -1,10 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getMovieData } from "../../actions/movieData";
-import { FETCH_SUCCESS } from "../../constants/actionTypes";
+import { bindActionCreators } from "redux";
 import {
-	LIKE_MOVIE,
-	DISLIKE_MOVIE,
 	RATE_LOW_HIGH,
 	RATE_HIGH_LOW,
 	POP_LOW_HIGH,
@@ -14,18 +11,20 @@ import {
 } from "../../constants/actionTypes";
 import MovieCard from "../../components/MovieCard";
 import Select from "react-select";
+import {
+	fetchMovieData,
+	sortByData,
+	sortByYear,
+	likeMovie,
+	dislikeMovie
+} from "../../reducers/fetchReducer";
+import "isomorphic-fetch";
 
 class App extends React.Component {
-	static loadData(store, match) {
-		return getMovieData().then(data => {
-			return store.dispatch({
-				type: FETCH_SUCCESS,
-				payload: {
-					...data
-				}
-			});
-		});
+	static fetchData(store) {
+		store.dispatch(fetchMovieData());
 	}
+
 	constructor(props) {
 		super(props);
 		this.logSortSelectChange = this.logSortSelectChange.bind(this);
@@ -126,7 +125,7 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.fetchData();
+		this.props.fetchMovieData();
 	}
 
 	render() {
@@ -214,52 +213,16 @@ function mapStateToProps(state) {
 		search: state.searchReducer
 	};
 }
-
-function mapDispatchToProps(dispatch) {
-	return {
-		async fetchData() {
-			const data = await getMovieData();
-			return dispatch({
-				type: FETCH_SUCCESS,
-				payload: {
-					...data
-				}
-			});
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+			fetchMovieData,
+			sortByData,
+			sortByYear,
+			likeMovie,
+			dislikeMovie
 		},
-		sortByData({ type, payload }) {
-			return dispatch({
-				type,
-				payload: {
-					...payload
-				}
-			});
-		},
-		sortByYear({ type, year, payload }) {
-			return dispatch({
-				type: type,
-				year,
-				payload: {
-					...payload
-				}
-			});
-		},
-		likeMovie(id) {
-			return dispatch({
-				type: LIKE_MOVIE,
-				payload: {
-					id
-				}
-			});
-		},
-		dislikeMovie(id) {
-			return dispatch({
-				type: DISLIKE_MOVIE,
-				payload: {
-					id
-				}
-			});
-		}
-	};
-}
+		dispatch
+	);
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
