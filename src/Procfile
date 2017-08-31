@@ -1,1 +1,0 @@
-web: TMDB_API_KEY=f54c6cba706b27a69fb42891c0161325 npm start

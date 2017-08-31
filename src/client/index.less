@@ -1,0 +1,168 @@
+@container-x-padding: 20px;
+@container-max-width: 971px;
+@container-min-width: 320px;
+@text-color: #ffffff;
+@fb-color: #3b5998;
+@twitter-color: #1dcaff;
+@whatsapp-color: #25d366;
+
+@import './react-select.less';
+
+body {
+	margin: 0;
+	padding: 0;
+	font-family: 'Roboto', sans-serif;
+}
+
+.Container {
+	max-width: @container-max-width;
+	min-width: @container-min-width;
+	margin: 0 auto;
+	height: 100%;
+	position: relative;
+
+	@media (min-width: 320px) and (max-width: 475px) {
+		padding: 0 @container-x-padding;
+	}
+}
+
+a:link,
+a:visited {
+	text-decoration: none;
+	color: @text-color;
+}
+
+.Movies__Container {
+	overflow: auto;
+}
+
+.selectContainer {
+	font-size: 12px;
+	& > * {
+		display: inline-block;
+		margin: 10px;
+	}
+
+	.sortSelect {
+		width: 160px;
+	}
+
+	.yearSelect {
+		width: 80px;
+	}
+}
+
+.Jumbotron {
+	padding-top: 30px;
+	padding-bottom: 30px;
+	margin-bottom: 30px;
+	color: inherit;
+	background-color: #eee;
+	text-align: center;
+	font-size: 30px;
+}
+
+.Icon {
+	display: inline-block;
+	text-align: center;
+	width: 20px;
+	height: 20px;
+	padding: 2px;
+	margin: 3px;
+	font-size: 12px;
+
+	&:first-child {
+		margin-left: 0px;
+	}
+
+	&:last-child {
+		margin-right: 0px;
+	}
+
+	&__Circular {
+		border-radius: 50%;
+	}
+
+	&__noPadding {
+		margin: 0 3px;
+		padding: 0px !important;
+	}
+
+	&__unsetWidth {
+		width: unset;
+	}
+}
+
+// POSITION
+.p {
+	&-absolute {
+		position: absolute;
+	}
+	&-topLeft {
+		top: 0;
+		left: 0;
+	}
+	&-topRight {
+		top: 0;
+		right: 0;
+	}
+	&-bottomLeft {
+		bottom: 0;
+		left: 0;
+	}
+	&-bottomRight {
+		bottom: 0;
+		right: 0;
+	}
+}
+
+// UTILITY
+
+.u {
+	&-margin {
+		&-top-gutter {
+			margin-top: 120px;
+		}
+	}
+
+	&-padding {
+		&-6p-left {
+			padding-left: 6px;
+		}
+		&-6p-bottom {
+			padding-bottom: 6px;
+		}
+	}
+
+	&-text {
+		color: @text-color;
+	}
+
+	&-color {
+		&-fb {
+			background-color: @fb-color;
+		}
+		&-twitter {
+			background-color: @twitter-color;
+		}
+		&-whatsapp {
+			background-color: @whatsapp-color;
+		}
+	}
+
+	&-cursor {
+		&-pointer {
+			cursor: pointer;
+		}
+		&-disabled {
+			pointer-events: none;
+		}
+	}
+}
+
+.movieContainer {
+	overflow: auto;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
