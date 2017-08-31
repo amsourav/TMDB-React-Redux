@@ -43,7 +43,7 @@ app.use((0, _morgan2.default)('dev'));
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use((0, _cookieParser2.default)());
-app.use(_express2.default.static(_path2.default.join(__dirname, '..', 'build')));
+app.use(_express2.default.static(_path2.default.join(__dirname, '..', 'public')));
 
 app.use('/', _server2.default);
 

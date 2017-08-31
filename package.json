@@ -72,7 +72,7 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "dev": "nodemon --inspect ./bin/www",
+    "dev": "node ./bin/www",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
     "build:server": "rm -rf dist/ && babel src/ -d dist/ && NODE_ENV=development webpack -p"
